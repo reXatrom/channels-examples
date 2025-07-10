@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class = "login-box" style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc;">
+    <h2>Login to Multichat</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type = "submit">Login</button>
+    </form>
+</div>
+
+{% endblock %}

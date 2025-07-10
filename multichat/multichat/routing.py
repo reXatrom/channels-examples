@@ -3,6 +3,7 @@ from django.urls import path
 from channels.http import AsgiHandler
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
+import chat.routing
 
 from chat.consumers import ChatConsumer
 
@@ -20,11 +21,17 @@ application = ProtocolTypeRouter({
     # We actually don't need the URLRouter here, but we've put it in for
     # illustration. Also note the inclusion of the AuthMiddlewareStack to
     # add users and sessions - see http://channels.readthedocs.io/en/latest/topics/authentication.html
-    "websocket": AuthMiddlewareStack(
-        URLRouter([
-            # URLRouter just takes standard Django path() or url() entries.
-            path("chat/stream/", ChatConsumer),
-        ]),
-    ),
+    
+    # "websocket": AuthMiddlewareStack(
+    #     URLRouter([
+    #         # URLRouter just takes standard Django path() or url() entries.
+    #         path("chat/stream/", ChatConsumer),
+    #     ]),
+    # ),
 
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            chat.routing.websocket_urlpatterns
+        )
+    ),
 })
